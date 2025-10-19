@@ -1,21 +1,22 @@
 from pathlib import Path
+import os
 
-# المسار الأساسي للمشروع
+# 📂 المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# مفتاح الأمان - لا تستخدم هذا المفتاح في الإنتاج
+# ⚠️ مفتاح الأمان (لا تستخدم هذا المفتاح في بيئة الإنتاج)
 SECRET_KEY = 'django-insecure-%xm*i-*fw0-&bolaosrzp717wydltjxwgots%eu7ck7b#o^qi5'
 
-# تفعيل وضع التطوير
+# 🔧 وضع التطوير
 DEBUG = True
 
-# السماح بالمضيفين (أضف لاحقاً نطاق موقعك عند الإطلاق)
+# 🌐 المضيفون المسموح بهم
 ALLOWED_HOSTS = []
 
 
-# التطبيقات المثبتة
+# 🧩 التطبيقات المثبتة
 INSTALLED_APPS = [
-    # تطبيقات Django الأساسية
+    # 🧱 تطبيقات Django الأساسية
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -23,19 +24,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 🏬 تطبيقات المشروع الخاصة بالمتجر الإلكتروني
-    'store',     # إدارة المنتجات والتصنيفات والمخزون
-    'orders',    # إدارة السلة والطلبات والفواتير
+    # 🏬 تطبيقات المشروع الخاصة
+    'store',     # إدارة المنتجات والصفحة الرئيسية
+    'orders',    # إدارة الطلبات والفواتير
     'accounts',  # إدارة المستخدمين والتوثيق
 ]
 
 
-# الوسائط الوسطى (Middleware)
+# ⚙️ الوسائط الوسطى (Middleware)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 
-    # دعم اللغة والتوقيت
+    # 🌍 دعم اللغة والتوقيت
     'django.middleware.locale.LocaleMiddleware',
 
     'django.middleware.common.CommonMiddleware',
@@ -46,17 +47,18 @@ MIDDLEWARE = [
 ]
 
 
-# ملف روابط المشروع
+# 🔗 ملف روابط المشروع
 ROOT_URLCONF = 'sa1.urls'
 
 
-# إعدادات القوالب (Templates)
+# 🧱 إعدادات القوالب (Templates)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # يمكنك إضافة مسار القوالب العامة هنا لاحقاً مثل:
-        # 'DIRS': [BASE_DIR / 'templates'],
-        'DIRS': [],
+
+        # ✅ استخدام os.path.join لضمان التعرف الصحيح على المسار
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,11 +72,11 @@ TEMPLATES = [
 ]
 
 
-# تطبيق WSGI
+# 🚀 تطبيق WSGI
 WSGI_APPLICATION = 'sa1.wsgi.application'
 
 
-# قاعدة البيانات (SQLite الافتراضية)
+# 🗃️ قاعدة البيانات (SQLite الافتراضية)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -83,7 +85,7 @@ DATABASES = {
 }
 
 
-# التحقق من كلمات المرور
+# 🔐 التحقق من كلمات المرور
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -92,7 +94,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# اللغة والمنطقة الزمنية
+# 🌍 اللغة والمنطقة الزمنية
 LANGUAGE_CODE = 'ar'              # اللغة العربية
 TIME_ZONE = 'Asia/Riyadh'         # التوقيت المحلي للرياض
 USE_I18N = True                   # تفعيل الترجمة
@@ -100,10 +102,20 @@ USE_L10N = True                   # تنسيق التواريخ والأرقام
 USE_TZ = True                     # استخدام المنطقة الزمنية
 
 
-# الملفات الثابتة (Static Files)
-STATIC_URL = 'static/'
-# يمكنك لاحقاً إضافة:
-# STATICFILES_DIRS = [BASE_DIR / 'static']
+# 🖼️ إعداد الملفات الثابتة (Static Files)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']   # ملفات التطوير
+STATIC_ROOT = BASE_DIR / 'staticfiles'     # مجلد التجميع للإنتاج
 
-# الحقل الافتراضي للمفاتيح الأساسية
+
+# 📸 إعداد ملفات الوسائط (Media Files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+# 🧱 الحقل الافتراضي للمفاتيح الأساسية
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# 🧩 طباعة المسار أثناء التطوير (اختياري لتأكيد المسار الصحيح)
+print(f"📁 [DEBUG] Templates Directory: {os.path.join(BASE_DIR, 'templates')}")

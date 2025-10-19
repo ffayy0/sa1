@@ -1,0 +1,27 @@
+{% include 'header.html' %}
+
+<main style="font-family: 'Tajawal', sans-serif; direction: rtl; background-color: #f0faff; color: #1f2937; padding: 3rem 1rem; text-align: center;">
+  <section style="max-width: 900px; margin: auto;">
+    <h2 style="font-size: 2rem; color: #004aad;">مرحبًا بكم في رحلة أعمال العقارية</h2>
+    <p style="font-size: 1.1rem; color: #333; margin-top: 1rem;">
+      نقدم لكم أفضل العروض العقارية في الرياض، من الشقق الحديثة إلى الفلل الفاخرة.  
+      هدفنا هو مساعدتكم في العثور على المنزل المثالي الذي يناسب طموحاتكم.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2.5rem;">
+      <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="/static/images/house1.jpg" alt="عقار 1" style="width: 100%; border-radius: 12px;">
+        <h3 style="color: #00a86b;">فيلا راقية شمال الرياض</h3>
+        <p>مساحة 400م - 4 غرف - السعر: 1,200,000 ريال</p>
+      </div>
+
+      <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <img src="/static/images/house2.jpg" alt="عقار 2" style="width: 100%; border-radius: 12px;">
+        <h3 style="color: #00a86b;">شقة فاخرة بالخبر</h3>
+        <p>مساحة 180م - 3 غرف - السعر: 850,000 ريال</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% include 'footer.html' %}
