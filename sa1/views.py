@@ -1,5 +1,6 @@
 from django.shortcuts import render
+from store.models import Product
 
 def home_view(request):
-    """الصفحة الرئيسية للموقع"""
-    return render(request, 'home.html')
+    products = Product.objects.all().order_by('-created_at')
+    return render(request, 'home.html', {'products': products})

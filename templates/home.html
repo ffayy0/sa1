@@ -26,14 +26,19 @@
 
     <!-- 🟢 زر تصفح المنتجات -->
     <div style="margin-top: 3rem;">
-      <a href="{% url 'store:product_list' %}" 
+      <a href="#products-section"
          style="background-color: #00a86b; color: white; padding: 0.9rem 1.8rem; border-radius: 8px;
-                font-size: 1.1rem; text-decoration: none; font-weight: 500; transition: background-color 0.3s;">
+                font-size: 1.1rem; text-decoration: none; font-weight: 500; transition: 0.3s;">
         🏬 تصفح المنتجات
       </a>
     </div>
-
   </section>
 </main>
 
+<!-- 🛍️ استدعاء قسم المنتجات -->
+<div id="products-section">
+  {% include 'store_templates/products.html' %}
+</div>
+
 {% include 'footer.html' %}
+
