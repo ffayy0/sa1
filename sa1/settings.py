@@ -1,5 +1,8 @@
 from pathlib import Path
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # 📂 المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,6 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # ☁️ تطبيقات Cloudinary
+    'cloudinary',
+    'cloudinary_storage',
 
     # 🏬 تطبيقات المشروع الخاصة
     'store',     # إدارة المنتجات والصفحة الرئيسية
@@ -55,10 +62,7 @@ ROOT_URLCONF = 'sa1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
-        # ✅ استخدام os.path.join لضمان التعرف الصحيح على المسار
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,22 +99,31 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # 🌍 اللغة والمنطقة الزمنية
-LANGUAGE_CODE = 'ar'              # اللغة العربية
-TIME_ZONE = 'Asia/Riyadh'         # التوقيت المحلي للرياض
-USE_I18N = True                   # تفعيل الترجمة
-USE_L10N = True                   # تنسيق التواريخ والأرقام
-USE_TZ = True                     # استخدام المنطقة الزمنية
+LANGUAGE_CODE = 'ar'
+TIME_ZONE = 'Asia/Riyadh'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 
 
 # 🖼️ إعداد الملفات الثابتة (Static Files)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']   # ملفات التطوير
-STATIC_ROOT = BASE_DIR / 'staticfiles'     # مجلد التجميع للإنتاج
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
-# 📸 إعداد ملفات الوسائط (Media Files)
+# ☁️ إعداد Cloudinary لتخزين ملفات الميديا
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dptrz53hn',
+    'API_KEY': '877719151785919',
+    'API_SECRET': 'D0saL3JKkJORvkW5eInC9ZSQNPI',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+# 📸 إعداد روابط الوسائط (سيتم توليدها من Cloudinary مباشرة)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # 🧱 الحقل الافتراضي للمفاتيح الأساسية
@@ -119,3 +132,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 🧩 طباعة المسار أثناء التطوير (اختياري لتأكيد المسار الصحيح)
 print(f"📁 [DEBUG] Templates Directory: {os.path.join(BASE_DIR, 'templates')}")
+print("☁️ [DEBUG] Cloudinary linked successfully to your project ✅")
