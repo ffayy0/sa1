@@ -1,3 +1,4 @@
+{% load static %}
 {% include 'header.html' %}
 
 <main style="font-family: 'Tajawal', sans-serif; direction: rtl; background-color: #f0faff; color: #1f2937; padding: 3rem 1rem; text-align: center;">
@@ -8,19 +9,30 @@
       هدفنا هو مساعدتكم في العثور على المنزل المثالي الذي يناسب طموحاتكم.
     </p>
 
+    <!-- 🏠 بنر العروض -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2.5rem;">
       <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-        <img src="/static/images/house1.jpg" alt="عقار 1" style="width: 100%; border-radius: 12px;">
+        <img src="{% static 'images/house1.jpg' %}" alt="عقار 1" style="width: 100%; border-radius: 12px;">
         <h3 style="color: #00a86b;">فيلا راقية شمال الرياض</h3>
         <p>مساحة 400م - 4 غرف - السعر: 1,200,000 ريال</p>
       </div>
 
       <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-        <img src="/static/images/house2.jpg" alt="عقار 2" style="width: 100%; border-radius: 12px;">
+        <img src="{% static 'images/house2.jpg' %}" alt="عقار 2" style="width: 100%; border-radius: 12px;">
         <h3 style="color: #00a86b;">شقة فاخرة بالخبر</h3>
         <p>مساحة 180م - 3 غرف - السعر: 850,000 ريال</p>
       </div>
     </div>
+
+    <!-- 🟢 زر تصفح المنتجات -->
+    <div style="margin-top: 3rem;">
+      <a href="{% url 'store:product_list' %}" 
+         style="background-color: #00a86b; color: white; padding: 0.9rem 1.8rem; border-radius: 8px;
+                font-size: 1.1rem; text-decoration: none; font-weight: 500; transition: background-color 0.3s;">
+        🏬 تصفح المنتجات
+      </a>
+    </div>
+
   </section>
 </main>
 
