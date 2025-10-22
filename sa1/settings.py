@@ -141,3 +141,4 @@ if DEBUG:
     print("💾 [DEBUG] Using SQLite (Development)")
 else:
     print("🗄️ [PRODUCTION] Connected to PostgreSQL Database successfully ✅")
+  
