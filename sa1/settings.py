@@ -12,8 +12,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-# 🌐 المضيفون المسموح بهم
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# 🌐 المضيفون المسموح بهم (تُقرأ من ملف .env)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
 
 # 🧩 التطبيقات المثبتة
 INSTALLED_APPS = [
@@ -121,14 +121,14 @@ CLOUDINARY_STORAGE = {
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# ☁️ تهيئة الاتصال بـ Cloudinary (تعمل في جميع السياقات)
+# ☁️ تهيئة الاتصال بـ Cloudinary (يعمل في كل السياقات)
 cloudinary.config(
     cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
     api_key=CLOUDINARY_STORAGE['API_KEY'],
     api_secret=CLOUDINARY_STORAGE['API_SECRET']
 )
 
-# 📸 إعداد روابط الوسائط
+# 📸 إعداد روابط الوسائط (تدار من Cloudinary)
 MEDIA_URL = '/media/'
 
 # 🧱 الحقل الافتراضي للمفاتيح الأساسية
@@ -136,7 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 🧩 رسائل تصحيحية في وضع التطوير
 print(f"📁 [DEBUG] Templates Directory: {os.path.join(BASE_DIR, 'templates')}")
-print(f"☁️ [DEBUG] Cloudinary linked successfully to your project ✅")
+print("☁️ [DEBUG] Cloudinary linked successfully to your project ✅")
 if DEBUG:
     print("💾 [DEBUG] Using SQLite (Development)")
 else:
