@@ -3,19 +3,17 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from decouple import config
 
 # 📂 المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ⚠️ مفتاح الأمان (لا تستخدم هذا المفتاح في بيئة الإنتاج)
-SECRET_KEY = 'django-insecure-%xm*i-*fw0-&bolaosrzp717wydltjxwgots%eu7ck7b#o^qi5'
-
-# 🔧 وضع التطوير
-DEBUG = True
+# 🔐 إعدادات الأمان من ملف .env
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 # 🌐 المضيفون المسموح بهم
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # 🧩 التطبيقات المثبتة
 INSTALLED_APPS = [
@@ -32,11 +30,10 @@ INSTALLED_APPS = [
     'cloudinary_storage',
 
     # 🏬 تطبيقات المشروع الخاصة
-    'store',     # إدارة المنتجات والصفحة الرئيسية
-    'orders',    # إدارة الطلبات والفواتير
-    'accounts',  # إدارة المستخدمين والتوثيق
+    'store',
+    'orders',
+    'accounts',
 ]
-
 
 # ⚙️ الوسائط الوسطى (Middleware)
 MIDDLEWARE = [
@@ -53,10 +50,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 # 🔗 ملف روابط المشروع
 ROOT_URLCONF = 'sa1.urls'
-
 
 # 🧱 إعدادات القوالب (Templates)
 TEMPLATES = [
@@ -75,19 +70,28 @@ TEMPLATES = [
     },
 ]
 
-
 # 🚀 تطبيق WSGI
 WSGI_APPLICATION = 'sa1.wsgi.application'
 
-
-# 🗃️ قاعدة البيانات (SQLite الافتراضية)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# 🗃️ قاعدة البيانات (SQLite في التطوير، PostgreSQL في الإنتاج)
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DB_ENGINE'),
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT'),
+        }
+    }
 
 # 🔐 التحقق من كلمات المرور
 AUTH_PASSWORD_VALIDATORS = [
@@ -97,7 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
 # 🌍 اللغة والمنطقة الزمنية
 LANGUAGE_CODE = 'ar'
 TIME_ZONE = 'Asia/Riyadh'
@@ -105,31 +108,36 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
-# 🖼️ إعداد الملفات الثابتة (Static Files)
+# 🖼️ إعداد الملفات الثابتة
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
-# ☁️ إعداد Cloudinary لتخزين ملفات الميديا
+# ☁️ إعداد Cloudinary لتخزين الميديا
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dptrz53hn',
-    'API_KEY': '877719151785919',
-    'API_SECRET': 'D0saL3JKkJORvkW5eInC9ZSQNPI',
+    'CLOUD_NAME': config('CLOUD_NAME'),
+    'API_KEY': config('API_KEY'),
+    'API_SECRET': config('API_SECRET'),
 }
-
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+# ☁️ تهيئة الاتصال بـ Cloudinary (تعمل في جميع السياقات)
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key=CLOUDINARY_STORAGE['API_KEY'],
+    api_secret=CLOUDINARY_STORAGE['API_SECRET']
+)
 
-# 📸 إعداد روابط الوسائط (سيتم توليدها من Cloudinary مباشرة)
+# 📸 إعداد روابط الوسائط
 MEDIA_URL = '/media/'
-
 
 # 🧱 الحقل الافتراضي للمفاتيح الأساسية
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# 🧩 طباعة المسار أثناء التطوير (اختياري لتأكيد المسار الصحيح)
+# 🧩 رسائل تصحيحية في وضع التطوير
 print(f"📁 [DEBUG] Templates Directory: {os.path.join(BASE_DIR, 'templates')}")
-print("☁️ [DEBUG] Cloudinary linked successfully to your project ✅")
+print(f"☁️ [DEBUG] Cloudinary linked successfully to your project ✅")
+if DEBUG:
+    print("💾 [DEBUG] Using SQLite (Development)")
+else:
+    print("🗄️ [PRODUCTION] Connected to PostgreSQL Database successfully ✅")

@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class Category(models.Model):
@@ -28,7 +29,8 @@ class Product(models.Model):
         verbose_name="التصنيف"
     )
 
-    image = models.ImageField(upload_to="products/",blank=True, null=True, verbose_name="صورة المنتج")
+    # ☁️ تخزين صورة المنتج في Cloudinary بدلاً من الملفات المحلية
+    image = CloudinaryField("صورة المنتج", folder="products", blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاريخ الإضافة")
 
